@@ -8,13 +8,13 @@ content-type: application/json
 }
 
 ### Find user by id
-GET http://localhost:3000/auth/2
+GET http://localhost:3000/auth/111
 
 ### Find all
 GET http://localhost:3000/auth?email=teste@gmail.com
 
 ### Update User
-PATCH http://localhost:3000/auth/2
+PATCH http://localhost:3000/auth/1
 content-type: application/json
 
 {
