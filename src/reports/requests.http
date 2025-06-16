@@ -8,14 +8,16 @@ content-type: application/json
   "mileage": 50000,
   "lng": -46.6333,
   "lat": -23.5505,
-  "price": 75000
+  "price": 76000
 }
 
 ### Aprove an existing report
-PATCH http://localhost:3000/reports/6
+PATCH http://localhost:3000/reports/7
 content-type: application/json
 
 {
-    "approved": true
+    "approved": false
 }
 
+### Get estimate for vehicle
+GET http://localhost:3000/reports?make=toyota&model=corolla&year=2020&mileage=50000&lng=-46.6333&lat=-23.5505
