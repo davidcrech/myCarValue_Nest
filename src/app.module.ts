@@ -8,7 +8,7 @@ import { ReportsModule } from './reports/reports.module';
 import { User } from './users/user.entity';
 import { Report } from './reports/report.entity';
 import { APP_PIPE } from '@nestjs/core';
-import { AppDataSource } from 'ormconfig';
+import { AppDataSource } from '../ormconfig';
 
 const cookieSession = require('cookie-session');
 
