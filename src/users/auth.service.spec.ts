@@ -10,10 +10,22 @@ describe('AuthService', () => {
 
   beforeEach(async () => {
     // fake copy
+    const users: User[] = [];
     fakeUsersService = {
-      find: () => Promise.resolve([]),
-      create: (email: string, password: string) =>
-        Promise.resolve({ id: 1, email, password } as User),
+      find: (email: string) => {
+        const filteredUsers = users.filter((user) => user.email === email);
+        return Promise.resolve(filteredUsers);
+      },
+      create: (email: string, password: string) => {
+        const user = {
+          id: Math.floor(Math.random() * 99999),
+          email,
+          password,
+        } as User;
+        users.push(user);
+
+        return Promise.resolve(user);
+      },
     };
 
     const module = await Test.createTestingModule({
@@ -52,5 +64,22 @@ describe('AuthService', () => {
     await expect(
       service.signin('asdflkj@asdlfkj.com', 'passdflkj'),
     ).rejects.toThrow(NotFoundException);
+  });
+
+  it('throws if an invalid password is provided', async () => {
+    fakeUsersService.find = () =>
+      Promise.resolve([
+        { email: 'asdf@asdf.com', password: 'laskdjf' } as User,
+      ]);
+    await expect(
+      service.signin('laskdjf@alskdfj.com', 'wrongPassword'),
+    ).rejects.toThrow(BadRequestException);
+  });
+
+  it('returns a user if correct password is provided', async () => {
+    await service.signup('asdf@asdf.com', 'laskdjf');
+
+    const user = await service.signin('asdf@asdf.com', 'laskdjf');
+    expect(user).toBeDefined();
   });
 });
